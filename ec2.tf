@@ -54,7 +54,7 @@ data "aws_subnets" "default" {
 
 resource "aws_spot_instance_request" "test_worker" {
   ami                    = "ami-00565a15a71e4402a"
-  spot_price             = "0.002"
+  spot_price             = "0.0025"
   instance_type          = "t4g.nano"
   spot_type              = "one-time"
   wait_for_fulfillment   = "true"

@@ -45,6 +45,7 @@ resource "aws_instance" "example" {
   instance_type = "t4g.nano"
   subnet_id     = data.aws_subnets.default.ids[0]
   vpc_security_group_ids      = [aws_security_group.ec2_sg.id]
+  key_name      = "terrakey"
 
   tags = {
     Name = "Tf-ec2"

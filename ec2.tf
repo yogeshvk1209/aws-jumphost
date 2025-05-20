@@ -40,12 +40,27 @@ data "aws_subnets" "default" {
   }
 }
 
-resource "aws_instance" "example" {
-  ami           = "ami-00565a15a71e4402a" # Amazon Linux 2023 in us-west-2 (update if using another region)
-  instance_type = "t4g.nano"
+#resource "aws_instance" "example" {
+#  ami           = "ami-00565a15a71e4402a" # Amazon Linux 2023 in us-west-2 (update if using another region)
+#  instance_type = "t4g.nano"
+#  subnet_id     = data.aws_subnets.default.ids[0]
+#  vpc_security_group_ids      = [aws_security_group.ec2_sg.id]
+#  key_name      = "terrakey"
+#
+#  tags = {
+#    Name = "Tf-ec2"
+#  }
+#}
+
+resource "aws_spot_instance_request" "test_worker" {
+  ami                    = "ami-00565a15a71e4402a"
+  spot_price             = "0.002"
+  instance_type          = "t4g.nano"
+  spot_type              = "one-time"
+  wait_for_fulfillment   = "true"
+  key_name               = "terrakey"
   subnet_id     = data.aws_subnets.default.ids[0]
   vpc_security_group_ids      = [aws_security_group.ec2_sg.id]
-  key_name      = "terrakey"
 
   tags = {
     Name = "Tf-ec2"

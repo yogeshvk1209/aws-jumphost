@@ -1,5 +1,5 @@
-resource "aws_security_group" "ec2_sg" {
-  name        = "ec2_security_group"
+resource "aws_security_group" "jp_ec2_sg" {
+  name        = "jp_ec2_security_group"
   description = "Allow SSH"
   vpc_id      = data.aws_vpc.default.id
 
@@ -19,7 +19,7 @@ resource "aws_security_group" "ec2_sg" {
   }
 
   tags = {
-    Name = "ec2_sg"
+    Name = "jp_ec2_sg"
   }
 }
 
@@ -40,29 +40,33 @@ data "aws_subnets" "default" {
   }
 }
 
-#resource "aws_instance" "example" {
-#  ami           = "ami-00565a15a71e4402a" # Amazon Linux 2023 in us-west-2 (update if using another region)
-#  instance_type = "t4g.nano"
-#  subnet_id     = data.aws_subnets.default.ids[0]
-#  vpc_security_group_ids      = [aws_security_group.ec2_sg.id]
-#  key_name      = "terrakey"
-#
-#  tags = {
-#    Name = "Tf-ec2"
-#  }
-#}
+data "aws_ami" "lt_ami" {
+  most_recent = true
+  owners      = ["amazon"]
+  filter {
+    name   = "architecture"
+    values = ["arm64"]
+  }
+  filter {
+    name   = "name"
+    values = ["al2023-ami-2023*"]
+  }
+}
 
-resource "aws_spot_instance_request" "test_worker" {
-  ami                    = "ami-00565a15a71e4402a"
-  spot_price             = "0.0025"
+resource "aws_instance" "jp_host" {
+  ami                    = data.aws_ami.lt_ami.id
+  instance_market_options {
+    market_type          = "spot"
+    spot_options {
+      max_price          = 0.0031
+    }
+  }
   instance_type          = "t4g.nano"
-  spot_type              = "one-time"
-  wait_for_fulfillment   = "true"
+  subnet_id              = data.aws_subnets.default.ids[0]
+  vpc_security_group_ids = [aws_security_group.jp_ec2_sg.id]
+  user_data              = file("userdata.sh")
   key_name               = "terrakey"
-  subnet_id     = data.aws_subnets.default.ids[0]
-  vpc_security_group_ids      = [aws_security_group.ec2_sg.id]
-
   tags = {
-    Name = "Tf-ec2"
+    Name = "jp_host"
   }
 }

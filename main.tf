@@ -1,6 +1,6 @@
 ########################## provider ##################################
 provider "aws" {
-  region = "us-west-2" # Change to your preferred AWS region
+  region = "us-east-1" # Change to your preferred AWS region
 }
 ########################## provider ##################################
 ########################## terraform #################################

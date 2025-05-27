@@ -65,8 +65,18 @@ resource "aws_instance" "jp_host" {
   subnet_id              = data.aws_subnets.default.ids[0]
   vpc_security_group_ids = [aws_security_group.jp_ec2_sg.id]
   user_data              = file("userdata.sh")
-  key_name               = "terrakey"
+  key_name               = "terrakeytmp"
   tags = {
     Name = "jp_host"
   }
+}
+
+output "instance_id" {
+  description = "Public IP address of the EC2 instance"
+  value       = aws_instance.jp_host.id
+}
+
+output "instance_public_ip" {
+  description = "Public IP address of the EC2 instance"
+  value       = aws_instance.jp_host.public_ip
 }

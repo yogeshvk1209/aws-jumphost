@@ -55,13 +55,18 @@ data "aws_ami" "lt_ami" {
 
 resource "aws_instance" "jp_host" {
   ami                    = data.aws_ami.lt_ami.id
-  instance_market_options {
-    market_type          = "spot"
-    spot_options {
-      max_price          = 0.0031
-    }
+  #instance_market_options {
+  #  market_type          = "spot"
+  #  spot_options {
+  #    max_price          = 0.0031
+  #  }
+  #}
+  root_block_device {
+    volume_size           = 30
+    volume_type           = "gp3"
+    delete_on_termination = true
   }
-  instance_type          = "t4g.nano"
+  instance_type          = "t4g.small"
   subnet_id              = data.aws_subnets.default.ids[0]
   vpc_security_group_ids = [aws_security_group.jp_ec2_sg.id]
   user_data              = file("userdata.sh")

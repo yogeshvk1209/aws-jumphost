@@ -46,6 +46,15 @@ data "aws_subnets" "default" {
     name   = "default-for-az"
     values = ["true"]
   }
+
+  # Filter by availability zone if specified
+  dynamic "filter" {
+    for_each = var.availability_zone != null ? [1] : []
+    content {
+      name   = "availability-zone"
+      values = [var.availability_zone]
+    }
+  }
 }
 
 data "aws_ami" "lt_ami" {
@@ -74,7 +83,7 @@ resource "aws_instance" "jp_host" {
     volume_type           = "gp3"
     delete_on_termination = true
   }
-  instance_type          = "t4g.small"
+  instance_type          = "t4g.medium"
   subnet_id              = data.aws_subnets.default.ids[0]
   vpc_security_group_ids = [aws_security_group.jp_ec2_sg.id]
   user_data              = file("userdata.sh")

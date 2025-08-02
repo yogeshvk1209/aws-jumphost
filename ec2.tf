@@ -79,14 +79,14 @@ resource "aws_instance" "jp_host" {
   #  }
   #}
   root_block_device {
-    volume_size           = 30
+    volume_size           = var.root_volume_size
     volume_type           = "gp3"
     delete_on_termination = true
   }
-  instance_type          = "t4g.medium"
+  instance_type          = var.instance_type
   subnet_id              = data.aws_subnets.default.ids[0]
   vpc_security_group_ids = [aws_security_group.jp_ec2_sg.id]
-  user_data              = file("userdata.sh")
+  user_data              = file(var.userdata_script)
   key_name               = "terrakeytmp"
   tags = {
     Name = "jp_host"

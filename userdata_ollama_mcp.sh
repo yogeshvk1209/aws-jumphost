@@ -16,7 +16,7 @@ echo "Waiting for Ollama to start..."
 sleep 10
 
 # Pull the required model
-ollama pull llama3.2:1b
+#ollama pull llama3.2:1b
 
 # Install AWS CLI if not already present
 if ! command -v aws &> /dev/null; then
@@ -31,7 +31,7 @@ mkdir -p /opt/aws-mcp-app
 cd /opt/aws-mcp-app
 
 # Clone the application (replace with your actual repository)
-# git clone <your-repo-url> .
+#git clone <your-repo-url> .
 
 # Install uv/uvx for MCP server
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -64,7 +64,7 @@ WantedBy=multi-user.target
 EOF
 
 # Enable the service (but don't start it yet)
-systemctl enable aws-mcp-app
+#systemctl enable aws-mcp-app
 
 echo "EC2 setup complete!"
 echo "Ollama is running with llama3.2:1b model"

@@ -10,7 +10,7 @@ variable "userdata_script" {
   type        = string
   default     = "userdata.sh"
   validation {
-    condition     = contains(["userdata.sh", "userdata_mcp.sh", "userdata_ollama.sh"], var.userdata_script)
+    condition     = contains(["userdata.sh", "userdata_mcp.sh", "userdata_ollama.sh", "userdata_ollama_mcp.sh"], var.userdata_script)
     error_message = "The userdata_script must be either 'userdata.sh' or 'userdata_mcp.sh'."
   }
 }

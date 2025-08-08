@@ -23,7 +23,9 @@ systemctl start docker
 curl -fsSL https://ollama.com/install.sh | sh
 sleep 30
 echo "Install complete"
+systemctl enable ollama
+systemctl start ollama
 ps -eaf| grep -i ollama
 #ollama pull qwen3:1.7b
 #docker run -d --network=host -v ollama-webui:/app/backend/data -e OLLAMA_API_BASE_URL=http://localhost:11434/api --name ollama-webui --restart always ghcr.io/ollama-webui/ollama-webui:main
-docker run -d --network=host -v open-webui-data:/app/backend/data -e OLLAMA_API_BASE_URL=http://localhost:11434/api --restart always ghcr.io/open-webui/open-webui:main
+#docker run -d --network=host -v open-webui-data:/app/backend/data -e OLLAMA_API_BASE_URL=http://localhost:11434/api --restart always ghcr.io/open-webui/open-webui:main

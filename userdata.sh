@@ -12,8 +12,8 @@ fi
 #Docker Config
 systemctl enable docker
 systemctl start docker
-mkdir -p /home/jenkins && chmod -R 777 /home/jenkins
-docker run -dit -p 8080:8080 -p 50000:50000 -v /home/jenkins:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock --group-add $(getent group docker | cut -d: -f3) yogeshvk1209/jenkins2.504_jdk21
+#mkdir -p /home/jenkins && chmod -R 777 /home/jenkins
+#docker run -dit -p 8080:8080 -p 50000:50000 -v /home/jenkins:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock --group-add $(getent group docker | cut -d: -f3) yogeshvk1209/jenkins2.504_jdk21
 #Kube config
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl"
 chmod +x ./kubectl
@@ -34,3 +34,6 @@ if [ -d /home/jenkins ]; then
     echo 'source <(kubectl completion bash)' >> /home/jenkins/.bashrc
   fi
 fi
+
+# Install Helm
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash

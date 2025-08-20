@@ -3,7 +3,8 @@ log_file=/var/log/user_data.log
 exec >> $log_file 2>&1
 yum update -y
 yum install -y yum-utils
-yum -y install git docker bash-completion python3.11 python3-pip
+yum -y install git docker bash-completion python3.11 python3-pip npm gcc python3-devel
+npm install mcp-remote@0.1.18
 # Enable bash-completion system-wide
 if [ -f /etc/profile.d/bash_completion.sh ]; then
   source /etc/profile.d/bash_completion.sh
